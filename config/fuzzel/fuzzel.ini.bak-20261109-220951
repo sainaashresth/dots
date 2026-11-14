@@ -1,0 +1,36 @@
+# Fuzzel - Wayland application launcher
+# Matches the Hyprland border colours: #33ccff (active) / #00ff99 (accent)
+# Edit freely, then just re-open fuzzel - it re-reads this file every launch.
+
+[main]
+font=JetBrainsMono Nerd Font:size=11
+fields = name,generic,comment,categories,filename,keywords
+show-actions = yes
+prompt="  "
+terminal=foot
+lines=10
+width=35
+horizontal-pad=20
+vertical-pad=12
+inner-pad=8
+line-height=18
+layer=overlay
+icons-enabled=yes
+exit-on-keyboard-focus-loss=yes
+
+[colors]
+background=1b1b1fee
+text=cdd6f4ff
+prompt=33ccffff
+placeholder=6c7086ff
+input=cdd6f4ff
+match=33ccffff
+selection=33ccff33
+selection-text=ffffffff
+selection-match=00ff99ff
+counter=6c7086ff
+border=33ccffff
+
+[border]
+width=2
+radius=12

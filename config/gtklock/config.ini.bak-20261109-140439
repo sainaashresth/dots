@@ -1,0 +1,6 @@
+[main]
+# Match the bar: 12-hour clock without AM/PM, day + date underneath.
+time-format=%I:%M
+date-format=%A, %d %B
+# Follow the monitor that has focus (recommended for Hyprland).
+follow-focus=true

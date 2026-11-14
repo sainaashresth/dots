@@ -1,0 +1,49 @@
+#!/bin/sh
+# Restore the wallpaper (swww/awww + waypaper) at Hyprland startup.
+#
+# Why this exists: calling `swww-daemon` from the top level of hyprland.lua
+# runs it while Hyprland is still parsing its config, before it exports
+# WAYLAND_DISPLAY. awww-daemon then panics with
+#   daemon/src/wayland.rs:60: failed to connect to socket: Connection refused
+# This script runs from the "hyprland.start" event instead, and waits until
+# the daemon actually answers before restoring the wallpaper.
+
+set -u
+
+# Log our own output (hyprland's exec_cmd can't redirect reliably).
+exec >> /tmp/start-wallpaper.log 2>&1
+
+# Fallback in case WAYLAND_DISPLAY is not exported for some reason.
+if [ -z "${WAYLAND_DISPLAY:-}" ]; then
+    for sock in "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/wayland-[0-9]*; do
+        case "${sock##*/}" in
+            *-awww-daemon*|*.lock) continue ;;
+        esac
+        [ -S "$sock" ] || continue
+        export WAYLAND_DISPLAY="${sock##*/}"
+        break
+    done
+fi
+
+daemon_running() {
+    pgrep -x swww-daemon >/dev/null 2>&1 || pgrep -x awww-daemon >/dev/null 2>&1
+}
+
+for _attempt in 1 2 3 4 5; do
+    if ! daemon_running; then
+        swww-daemon >/dev/null 2>&1 &
+    fi
+
+    # Wait until the daemon's IPC socket accepts commands (max ~10s).
+    if timeout 10 sh -c 'while ! swww query >/dev/null 2>&1; do sleep 0.2; done'; then
+        # Monitors may not be ready yet: restore, wait, restore again.
+        waypaper --restore
+        sleep 2
+        exec waypaper --restore
+    fi
+
+    sleep 1
+done
+
+logger -t wallpaper "swww-daemon failed to start; wallpaper not restored"
+exit 1

@@ -1,0 +1,112 @@
+// Minimal Waybar for Hyprland -- chips with rounded corners, transparent bar.
+// Modules: workspaces | active apps | volume | RAM | battery | date+time
+{
+    "layer": "top",
+    "position": "top",
+    "height": 26,
+    "spacing": 0,
+    "margin-top": 6,
+    "margin-left": 8,
+    "margin-right": 8,
+
+    "modules-left": ["hyprland/workspaces", "custom/music-prev", "custom/music-play-pause", "custom/music-next"],
+    "modules-center": ["custom/apps"],
+    "modules-right": ["pulseaudio", "memory", "battery", "clock"],
+
+    // Workspaces: no numbers. Five are always shown (inactive = dot,
+    // active = dash) so the bar doesn't shift when desktops come and go.
+    "hyprland/workspaces": {
+        "format": " {icon} ",
+        "format-icons": {
+            "default": " "
+        },
+        "on-click": "activate",
+        "all-outputs": true,
+        "sort-by-number": true,
+        "tooltip": false,
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+    // Music: previous track
+    "custom/music-prev": {
+        "exec": "$HOME/.config/waybar/scripts/music-prev.sh",
+        "on-click": "$HOME/.config/waybar/scripts/music.sh previous",
+        "tooltip": false,
+        "interval": 1
+    },
+    // Music: play / pause toggle
+    "custom/music-play-pause": {
+        "exec": "$HOME/.config/waybar/scripts/music-play-pause.sh",
+        "on-click": "$HOME/.config/waybar/scripts/music.sh toggle",
+        "tooltip": false,
+        "interval": 1
+    },
+    // Music: next track
+    "custom/music-next": {
+        "exec": "$HOME/.config/waybar/scripts/music-next.sh",
+        "on-click": "$HOME/.config/waybar/scripts/music.sh next",
+        "tooltip": false,
+        "interval": 1
+    },
+
+    // Centre: windows on the focused workspace only. The focused window is
+    // shown as its app glyph in the accent colour, the rest as dim dots.
+    // The script prints continuously and is driven by Hyprland's event
+    // socket, so no poll interval is needed.
+    "custom/apps": {
+        "exec": "$HOME/.config/waybar/scripts/active-apps.py",
+        "escape": false,
+        "tooltip": false,
+        "restart-interval": 1
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "scroll-step": 2,
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 2%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-",
+        "tooltip-format": "{desc}"
+    },
+
+    "memory": {
+        "format": "󰍛 {used:0.1f}G",
+        "interval": 5,
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G  ({percentage}%)"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo}\n{power:0.1f}W"
+    },
+
+    "clock": {
+        "timezone": "Asia/Kathmandu",
+        "format": "󰃭 {:%a %I:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "format": {
+                "months": "<span color='#33ccff'><b>{}</b></span>",
+                "days": "<span color='#cdd6f4'>{}</span>",
+                "today": "<span color='#00ff99'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode"
+        }
+    }
+}

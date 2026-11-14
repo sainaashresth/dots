@@ -1,0 +1,33 @@
+[General]
+ColorScheme=DarkMatch
+menuStyle=Breeze
+
+[KDE]
+SingleClick=false
+UiLock=false
+
+[Fonts]
+general=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+fixed=JetBrainsMono Nerd Font,11,-1,5,50,0,0,0,0,0
+smallestReadable=Adwaita Sans,10,-1,5,50,0,0,0,0,0
+title=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+menu=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+taskbar=Adwaita Sans,10,-1,5,50,0,0,0,0,0
+active=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+toolIcon=Adwaita Sans,10,-1,5,50,0,0,0,0,0
+widget=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+windowTitle=Adwaita Sans,11,-1,5,50,0,0,0,0,0
+
+[KScreen]
+ScreenScaleFactors=
+
+[KWallet]
+Enabled=false
+FirstUse=true
+
+[Locale]
+Country=&US
+Language=en_US
+
+[KDE][Qt]
+databaseDriver=QSQLITE

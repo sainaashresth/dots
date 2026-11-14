@@ -1,0 +1,75 @@
+/* Pixie-style lock screen for gtklock
+   Colors/radius from /usr/share/sddm/themes/pixie (theme.conf + Main.qml):
+     bg #1A1C18, text #E3E3DC, pill radius 32
+     accent: Pixie auto-extracts from the wallpaper; here set to the user's
+     wallpaper-matching cyan #33ccff.
+   Font: Pixie ships "Flex Rounded" files whose real family name is
+     "Google Sans Flex Freeze" (fc-list). */
+window {
+    background-image: url("file:///usr/share/sddm/themes/pixie/assets/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1A1C18;
+}
+
+/* giant two-tone-style clock */
+#clock-label {
+    font-family: "Google Sans Flex Freeze", "Adwaita Sans", sans-serif;
+    font-size: 120px;
+    font-weight: 500;
+    color: #E3E3DC;
+    text-shadow: 0 3px 24px rgba(0, 0, 0, 0.45);
+}
+/* mimic Pixie: clock shrinks while the password form is up */
+window.focused:not(.hidden) #clock-label {
+    font-size: 48px;
+}
+
+#date-label {
+    font-family: "Google Sans Flex Freeze", "Adwaita Sans", sans-serif;
+    font-size: 22px;
+    color: #E3E3DC;
+    opacity: 0.85;
+}
+
+/* the whole form sits on one Pixie-style translucent pill (radius 32) */
+#body-grid {
+    background: rgba(26, 28, 24, 0.70);
+    border-radius: 32px;
+    padding: 18px;
+}
+
+#input-label {
+    color: #E3E3DC;
+}
+
+#input-field {
+    background: rgba(255, 255, 255, 0.10);
+    color: #E3E3DC;
+    border: 2px solid rgba(51, 204, 255, 0.35);
+    border-radius: 28px;
+    padding: 10px 16px;
+    min-height: 30px;
+    caret-color: #33ccff;
+}
+
+#input-field:focus {
+    border-color: rgba(51, 204, 255, 0.90);
+}
+
+#unlock-button {
+    background: rgba(51, 204, 255, 0.85);
+    color: #10202a;
+    border: none;
+    border-radius: 28px;
+    padding: 10px 22px;
+}
+
+#unlock-button:hover {
+    background: #66d9ff;
+}
+
+#error-label {
+    color: #f2b8b5;
+}

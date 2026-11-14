@@ -1,0 +1,23 @@
+#!/bin/sh
+# Fuzzel clipboard-history picker, wired to SUPER+SHIFT+V.
+#
+# Depends on: cliphist (history daemon), wl-clipboard (wl-paste/wl-copy),
+# fuzzel. The daemon side is started by the "hyprland.start" autostart block
+# in hyprland.lua (`wl-paste --watch cliphist store`).
+#
+# Why the guards: Hyprland's exec cannot run [ ]-style shell tests, but inside
+# a real /bin/sh script they are fine.
+
+# Tell the user loudly if dependencies are missing, instead of failing silently.
+command -v wl-copy  >/dev/null 2>&1 && command -v wl-paste >/dev/null 2>&1 && command -v cliphist >/dev/null 2>&1 || {
+    printf 'wl-clipboard and cliphist are required (pacman -S wl-clipboard cliphist)' |
+        fuzzel --dmenu --prompt="clipboard: " -w 70 >/dev/null 2>&1
+    exit 1
+}
+
+# Offer the stored history in fuzzel; dmenu mode keeps only one line.
+choice=$(cliphist list | fuzzel --dmenu --prompt="clipboard: " -w 60 -l 15)
+[ -n "$choice" ] || exit 0
+
+# cliphist expects the exact list line back to decode the matching entry.
+printf '%s' "$choice" | cliphist decode | wl-copy

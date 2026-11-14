@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Reboot the system
+systemctl reboot

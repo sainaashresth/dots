@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Power off the system
+systemctl poweroff

@@ -1,0 +1,70 @@
+/* Dark gtklock theme, matching ~/.config/waybar/style.css and fuzzel. */
+
+* {
+    font-family: "Adwaita Sans";
+    color: #cdd6f4;
+}
+
+window {
+    background-color: #1b1b1e;
+    background-image: none;
+}
+
+#window-box {
+    padding: 48px;
+}
+
+#clock-label {
+    font-size: 72px;
+    font-weight: 200;
+    color: #e6e9f0;
+    letter-spacing: 2px;
+}
+
+#date-label {
+    font-size: 15px;
+    color: #a6adc8;
+    margin-top: 2px;
+}
+
+#input-label {
+    font-size: 13px;
+    color: #a6adc8;
+}
+
+#input-field {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(51, 204, 255, 0.30);
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: #cdd6f4;
+}
+
+#input-field:focus {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #33ccff;
+}
+
+#unlock-button {
+    background-image: none;
+    background-color: #33ccff;
+    color: #101014;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 18px;
+    font-weight: 700;
+}
+
+#unlock-button:hover {
+    background-color: #5ed8ff;
+}
+
+#error-label {
+    color: #ff5555;
+    font-size: 13px;
+}
+
+#warning-label {
+    color: #ffcc66;
+    font-size: 13px;
+}

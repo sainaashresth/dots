@@ -1,0 +1,6 @@
+helium-browser-bin
+pixie-sddm-git
+plymouth-theme-deus-ex-git
+waypaper
+yay-bin
+yay-bin-debug

@@ -1,0 +1,234 @@
+/* Minimal chip bar: transparent background, rounded 1px borders around each
+   module only. Colours match the Hyprland/fuzzel theme. */
+
+* {
+    /* Clean sans for all text; Nerd Font glyphs come from fontconfig
+       fallback. Adwaita Sans is GNOME's Inter-like UI font. */
+    font-family: "Adwaita Sans";
+    font-size: 11px;
+    font-weight: 500;
+    min-height: 0;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+window#waybar {
+    background: transparent;
+    color: #cdd6f4;
+}
+
+/* tooltips match the rest of the theme */
+tooltip {
+    background: #1b1b1e;
+    border: 1px solid rgba(51, 204, 255, 0.45);
+    border-radius: 9px;
+}
+tooltip label {
+    color: #cdd6f4;
+    padding: 5px 8px;
+}
+
+/* ---- the chips: rounded border, nothing else rounded ---- */
+#workspaces,
+#custom-apps,
+#pulseaudio,
+#memory,
+#battery,
+#clock {
+    background: rgba(27, 27, 30, 0.85);
+    border: 1px solid rgba(51, 204, 255, 0.30);
+    /* 999px clamps to half the chip height => proper capsule corners */
+    border-radius: 999px;
+    padding: 0 10px;
+    margin: 2px 3px;
+    color: #cdd6f4;
+}
+
+/* ---- workspaces: a dot per desktop, a dash for the one in use ---- */
+#workspaces {
+    padding: 0 5px;
+}
+
+#workspaces button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 2px;
+    /* Fixed 16px slot so workspaces never shift. */
+    min-width: 16px;
+    min-height: 0;
+    font-size: 0px;
+    color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* ---- workspaces: a dot per desktop, a dash for the one in use ---- */
+#workspaces {
+    padding: 0 5px;
+}
+
+#workspaces button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 2px;
+    /* Fixed slot so workspaces never shift. */
+    min-width: 16px;
+    min-height: 0;
+    font-size: 0px;
+    color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    /* Inactive: centered dot via radial gradient. */
+    background-image: radial-gradient(
+        circle at center,
+        rgba(205, 214, 244, 0.75) 0%,
+        rgba(205, 214, 244, 0.75) 3px,
+        transparent 4px
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 6px 6px;
+    transition: background-image 150ms ease, background-size 150ms ease;
+}
+
+#workspaces button:hover {
+    background-image: radial-gradient(
+        circle at center,
+        rgba(205, 214, 244, 1.0) 0%,
+        rgba(205, 214, 244, 1.0) 3px,
+        transparent 4px
+    );
+    background-size: 6px 6px;
+}
+
+#workspaces button.active {
+    /* Active: horizontal dash (16x6 capsule) via linear gradient. */
+    background-image: linear-gradient(
+        to right,
+        transparent,
+        transparent calc(50% - 8px),
+        #33ccff calc(50% - 8px),
+        #33ccff calc(50% + 8px),
+        transparent calc(50% + 8px),
+        transparent
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 6px;
+}
+
+#workspaces button.urgent {
+    background-image: linear-gradient(
+        to right,
+        transparent,
+        transparent calc(50% - 8px),
+        #ff5555 calc(50% - 8px),
+        #ff5555 calc(50% + 8px),
+        transparent calc(50% + 8px),
+        transparent
+    );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 6px;
+}
+
+/* Hide the label entirely. */
+#workspaces button label {
+    font-size: 0px;
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+/* ---- centre: windows on the focused workspace ---- */
+#custom-apps {
+    padding: 0 10px;
+    font-size: 12px;
+    /* The glyph is the last character when only one window is open, so its
+       ink can overflow the cell and be clipped. Propo has wide advances. */
+    font-family: "JetBrainsMono Nerd Font Propo";
+}
+
+/* ---- music chip: the capsule look now comes from the #group-music
+   drawer container below, so the icon itself stays transparent ---- */
+#custom-music {
+    padding: 0 10px;
+    margin: 2px 3px;
+    color: #33ccff;
+    font-size: 16px;
+    font-weight: 500;
+    min-height: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#custom-music:hover {
+    background: rgba(27, 27, 30, 1.0);
+    border-color: rgba(51, 204, 255, 0.60);
+    color: #ffffff;
+}
+
+#custom-music.paused,
+#custom-music.stopped {
+    color: #cdd6f4;
+}
+
+/* ---- small state accents ---- */
+#battery.charging,
+#battery.plugged {
+    color: #00ff99;
+}
+
+#battery.warning:not(.charging) {
+    color: #ffcc66;
+    border-color: rgba(255, 204, 102, 0.55);
+}
+
+#battery.critical:not(.charging) {
+    color: #ff5555;
+    border-color: rgba(255, 85, 85, 0.65);
+    animation: blink 1.2s steps(2) infinite;
+}
+
+@keyframes blink {
+    to { color: #ffffff; }
+}
+
+#pulseaudio.muted {
+    color: #6c7086;
+}
+
+/* ---- hover drawer: single light capsule holding icon + controls + title ---- */
+#group-music {
+    background: rgba(23, 23, 26, 0.60);
+    border: 1px solid rgba(51, 204, 255, 0.20);
+    border-radius: 999px;
+}
+#custom-music {
+    padding: 0 12px;
+    font-size: 16px;
+    color: #33ccff;
+}
+#custom-music-prev,
+#custom-music-play,
+#custom-music-next,
+#custom-music-title {
+    /* no own panel/border: the group capsule is the single border */
+    color: #cdd6f4;
+    padding: 0 8px;
+}
+#custom-music-play {
+    color: #00ff99;
+}
+#custom-music-prev:hover,
+#custom-music-play:hover,
+#custom-music-next:hover,
+#custom-music-title:hover {
+    color: #ffffff;
+    background: rgba(51, 204, 255, 0.10);
+}
